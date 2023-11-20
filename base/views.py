@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 from .models import Room, Topic
 from .forms import RoomForm
+
 
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
@@ -14,6 +18,33 @@ def home(request):
     topics = Topic.objects.all()
     context = {'rooms': rooms, 'topics': topics, 'room_count': rooms.count()}
     return render(request, 'base/home.html', context)
+
+def loginPage(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        print(username)
+        print(password)
+
+        try:
+            user = User.objects.get(username=username)
+        except:
+            messages.add_message(request, messages.ERROR, "User does not exist.")
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.add_message(request, messages.ERROR, "Wrong password.")
+
+    context = {}
+    return render(request, 'base/login_register.html', context)
+
+def logoutUser(request):
+    logout(request)
+    return redirect('home')
 
 def room(request, pk):
     room = Room.objects.get(id = pk)

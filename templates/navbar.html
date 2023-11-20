@@ -1,5 +1,9 @@
 <a href="/">
-    <h1>LOGO</h1>
+  <h1>LOGO</h1>
 </a>
 
-<hr>
+<form method="GET" action="{% url 'home' %}">
+  <input type="text" name="q" placeholder="Search rooms..." />
+</form>
+
+<hr />

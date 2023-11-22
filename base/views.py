@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from .models import Room, Topic
+from .models import Room, Topic, Message
 from .forms import RoomForm
 
 
@@ -75,8 +75,21 @@ def logoutUser(request):
     return redirect('home')
 
 def room(request, pk):
+    
     room = Room.objects.get(id = pk)
-    context = {'room': room}
+    if request.method == 'POST':
+        message = Message.objects.create(
+            body=request.POST.get('body'),
+            user=request.user, 
+            room=room, )
+        room.participants.add(request.user)
+        return redirect('room', pk=room.id)
+        
+    #messages = Message.objects.filter(room__id=pk)
+    room_messages = room.message_set.all().order_by('-updated')
+
+    participants = room.participants.all()
+    context = {'room': room, 'room_messages': room_messages, 'participants': participants}
     return render(request, 'base/room.html', context)
 
 @login_required(login_url='login-page')
@@ -125,4 +138,16 @@ def delete_room(request, pk):
     
     context = {'name': room.name}
 
+    return render(request, 'base/delete.html', context)
+
+@login_required(login_url='login-page')
+def delete_comment(request, pk):
+    message = Message.objects.get(id=pk)
+
+    if request.method == 'POST':
+        message.delete(commit=False)
+        return redirect('home')
+    
+    context = {'name': message }
+    
     return render(request, 'base/delete.html', context)

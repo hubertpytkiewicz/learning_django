@@ -145,7 +145,9 @@ def delete_comment(request, pk):
     message = Message.objects.get(id=pk)
 
     if request.method == 'POST':
-        message.delete(commit=False)
+        if message.room.message_set.filter(user=request.user).count() == 1:
+            print(message.room.participants.remove(request.user))
+        message.delete()
         return redirect('home')
     
     context = {'name': message }

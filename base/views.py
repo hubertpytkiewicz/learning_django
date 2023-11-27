@@ -17,9 +17,13 @@ def home(request):
     rooms = Room.objects.filter(
         Q(topic__name__icontains=q) | Q(name__icontains=q) | Q(description__icontains=q)
         )
+    print(q)
+    for room in rooms:
+        print(room.topic)
 
     topics = Topic.objects.all()
-    context = {'rooms': rooms, 'topics': topics, 'room_count': rooms.count()}
+    room_messages = Message.objects.filter(Q(room__topic__name__icontains=q)).order_by('-created')
+    context = {'rooms': rooms, 'topics': topics, 'room_count': rooms.count(), 'room_messages': room_messages}
     return render(request, 'base/home.html', context)
 
 def loginPage(request):
@@ -146,7 +150,7 @@ def delete_comment(request, pk):
 
     if request.method == 'POST':
         if message.room.message_set.filter(user=request.user).count() == 1:
-            print(message.room.participants.remove(request.user))
+            message.room.participants.remove(request.user)
         message.delete()
         return redirect('home')
     

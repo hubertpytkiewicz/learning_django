@@ -2,7 +2,11 @@
 {% for room_message in room_messages %}
 <div>
   <small
-    ><b>{{room_message.user}}----{{room_message.updated|timesince}}</b></small
+    ><b
+      ><a href="{% url 'user-page' room_message.user.id %}"
+        >{{room_message.user}}</a
+      >----{{room_message.updated|timesince}}</b
+    ></small
   >
   <small><b>replied to {{room_message.room}}</b></small>
   <p>{{ room_message }}</p>

@@ -1,6 +1,10 @@
+{% load static %}
+
 <a href="/">
   <h1>LOGO</h1>
 </a>
+
+<img src="{% static 'images/sm.png' %}" />
 
 <h2>
   {% if request.user.is_authenticated %}

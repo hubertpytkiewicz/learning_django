@@ -17,13 +17,14 @@ def home(request):
     rooms = Room.objects.filter(
         Q(topic__name__icontains=q) | Q(name__icontains=q) | Q(description__icontains=q)
         )
+    all_rooms = Room.objects.all()
     print(q)
     for room in rooms:
         print(room.topic)
 
     topics = Topic.objects.all()
     room_messages = Message.objects.filter(Q(room__topic__name__icontains=q)).order_by('-created')
-    context = {'rooms': rooms, 'topics': topics, 'room_count': rooms.count(), 'room_messages': room_messages}
+    context = {'rooms': rooms, 'topics': topics, 'room_count': rooms.count(), 'all_room_count': all_rooms.count(), 'room_messages': room_messages}
     return render(request, 'base/home.html', context)
 
 def loginPage(request):

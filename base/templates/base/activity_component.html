@@ -1,3 +1,52 @@
+{% load static %}
+
+<div class="activities">
+  <div class="activities__header">
+    <h2>Recent Activities</h2>
+  </div>
+  {% for room_message in room_messages %}
+  <div class="activities__box">
+    <div class="activities__boxHeader roomListRoom__header">
+      <a href="profile.html" class="roomListRoom__author">
+        <div class="avatar avatar--small">
+          <img src="{% static 'images/avatar.png' %}" />
+        </div>
+        <p>
+          @{{room_message.user.username}}
+          <span>{{room_message.updated|timesince}}</span>
+        </p>
+      </a>
+      <div class="roomListRoom__actions">
+        <a href="#">
+          <svg
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+          >
+            <title>remove</title>
+            <path
+              d="M27.314 6.019l-1.333-1.333-9.98 9.981-9.981-9.981-1.333 1.333 9.981 9.981-9.981 9.98 1.333 1.333 9.981-9.98 9.98 9.98 1.333-1.333-9.98-9.98 9.98-9.981z"
+            ></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="activities__boxContent">
+      <p>
+        replied in room “<a href="{% url 'room' room_message.room.id%}"
+          >{{room_message.room.name}}</a
+        >”
+      </p>
+      <div class="activities__boxRoomContent">{{room_message}}</div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- 
+
 <h2>Recent activity</h2>
 {% for room_message in room_messages %}
 <div>
@@ -14,3 +63,5 @@
 </div>
 
 {% endfor %}
+
+-->

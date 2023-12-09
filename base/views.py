@@ -164,5 +164,6 @@ def userPage(request, pk):
     topics = Topic.objects.all()
     room_messages = user.message_set.all()
     context = {'user': user, 'rooms': rooms, 'room_messages': room_messages, 'topics': topics}
+    context['all_room_count'] = Room.objects.all().count()
     
     return render(request, 'base/user_profile.html', context)

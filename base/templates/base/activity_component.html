@@ -7,7 +7,10 @@
   {% for room_message in room_messages %}
   <div class="activities__box">
     <div class="activities__boxHeader roomListRoom__header">
-      <a href="profile.html" class="roomListRoom__author">
+      <a
+        href="{% url 'user-page' room_message.user.id %}"
+        class="roomListRoom__author"
+      >
         <div class="avatar avatar--small">
           <img src="{% static 'images/avatar.png' %}" />
         </div>
@@ -17,7 +20,7 @@
         </p>
       </a>
       <div class="roomListRoom__actions">
-        <a href="#">
+        <a href="{% url 'delete-comment' room_message.id %}">
           <svg
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"

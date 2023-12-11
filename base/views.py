@@ -162,7 +162,7 @@ def userPage(request, pk):
     user = User.objects.get(id=pk)
     rooms = user.room_set.all()
     topics = Topic.objects.all()
-    room_messages = user.message_set.all()
+    room_messages = user.message_set.all().order_by('-created')
     context = {'user': user, 'rooms': rooms, 'room_messages': room_messages, 'topics': topics}
     context['all_room_count'] = Room.objects.all().count()
     

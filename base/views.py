@@ -21,7 +21,7 @@ def home(request):
 
     topics = Topic.objects.all()
     room_messages = Message.objects.filter(Q(room__topic__name__icontains=q)).order_by('-created')
-    context = {'rooms': rooms, 'topics': topics, 'all_room_count': all_rooms.count(), 'room_messages': room_messages}
+    context = {'rooms': rooms.order_by('-created'), 'topics': topics, 'all_room_count': all_rooms.count(), 'room_messages': room_messages}
     return render(request, 'base/home.html', context)
 
 def loginPage(request):

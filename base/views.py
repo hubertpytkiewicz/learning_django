@@ -100,6 +100,7 @@ def create_room(request):
     if request.method == 'POST':
         print(request.POST)
         form = RoomForm(request.POST)
+        print(form)
         if form.is_valid():
             room = form.save(commit=False)
             room.host = request.user
@@ -112,9 +113,6 @@ def create_room(request):
 @login_required(login_url='login-page')
 def update_room(request, pk):
     room = Room.objects.get(id=pk)
-
-    if request.user != room.host:
-        return HttpResponse("You don't have a permission to do this.")
     
     form = RoomForm(instance=room)
     context = {'form': form}    

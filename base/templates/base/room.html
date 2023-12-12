@@ -23,6 +23,7 @@
             <h3>Room</h3>
           </div>
 
+          {% if request.user == room.host %}
           <div class="room__topRight">
             <a href="{% url 'update-room' room.id %}">
               <svg
@@ -67,6 +68,7 @@
               </svg>
             </a>
           </div>
+          {% endif %}
 
           <!-- <button class="action-button" data-id="120" data-delete-url="https://randomuser.me/api/3324923"
             data-edit-url="profile.html">

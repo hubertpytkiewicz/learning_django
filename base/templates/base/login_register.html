@@ -3,7 +3,7 @@
 <div>
   {%if page == "login" %}
   <form method="POST" action="">
-    {%csrf_token%}
+    {% csrf_token %}
     <label>Username:</label>
     <input type="text" placeholder="Enter username..." name="username" />
     <label>Password:</label>

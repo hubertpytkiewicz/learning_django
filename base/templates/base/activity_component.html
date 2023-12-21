@@ -20,6 +20,7 @@
         </p>
       </a>
       <div class="roomListRoom__actions">
+        {% if room_message.user == request.user %}
         <a href="{% url 'delete-comment' room_message.id %}">
           <svg
             version="1.1"
@@ -34,6 +35,7 @@
             ></path>
           </svg>
         </a>
+        {% endif %}
       </div>
     </div>
     <div class="activities__boxContent">

@@ -26,9 +26,6 @@ def home(request):
 
 def loginPage(request):
 
-    page = 'login'
-    context = {'page': page}
-
     if request.user.is_authenticated:
         return redirect('home')
     
@@ -49,7 +46,7 @@ def loginPage(request):
         else:
             messages.add_message(request, messages.ERROR, "Wrong password.")
 
-    return render(request, 'base/login_register.html', context)
+    return render(request, 'base/login.html')
 
 def registerPage(request):
     form = UserCreationForm()
@@ -66,9 +63,9 @@ def registerPage(request):
         else:
             messages.error(request, "Couldn't register an account.")
 
-    context = { 'form': form}
+    context = {'form' : form}
 
-    return render(request, 'base/login_register.html', context)
+    return render(request, 'base/register.html', context)
 
 def logoutUser(request):
     logout(request)
